@@ -1,12 +1,14 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import databaseConnection from './config/database.js';
 import jobsRouter from './routes/jobs.js';
-import mongoose from 'mongoose';
 
-mongoose
-  .connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/jobboard')
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch((err) => console.error('MongoDB error:', err));
+dotenv.config();
+
+// Connect to database
+databaseConnection();
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -23,5 +25,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
